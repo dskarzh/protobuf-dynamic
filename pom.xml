@@ -7,7 +7,7 @@
   <packaging>jar</packaging>
   <version>1.0.4TB</version>
   <name>protobuf-dynamic</name>
-  <url>https://github.com/os72/protobuf-dynamic</url>
+  <url>https://github.com/thingsboard/protobuf-dynamic</url>
   <description>Protocol Buffers Dynamic Schema</description>
 
   <parent>
@@ -18,15 +18,15 @@
 
   <licenses>
 	<license>
-	  <name>The Apache Software License, Version 2.0</name>
-	  <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+	  <name>Apache License 2.0</name>
+	  <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
 	  <distribution>repo</distribution>
 	</license>
   </licenses>
   <scm>
-      <connection>scm:git:git@github.com:thingsboard/protobuf-dynamic.git</connection>
+      <connection>scm:git:https://github.com/thingsboard/protobuf-dynamic.git</connection>
       <developerConnection>scm:git:git@github.com:thingsboard/protobuf-dynamic.git</developerConnection>
-      <url>git@github.com:thingsboard/protobuf-dynamic.git</url>
+      <url>https://github.com/thingsboard/protobuf-dynamic</url>
   </scm>
   <developers>
 	<developer>
@@ -155,6 +155,12 @@
 		<plugin>
 		  <groupId>org.apache.maven.plugins</groupId>
 		  <artifactId>maven-javadoc-plugin</artifactId>
+		  <!--
+			Version pinned deliberately: the javadoc output directory moved between plugin
+			versions, and maven-resources-plugin below stages the license into it by path.
+			Leaving the version implicit lets the two drift apart silently.
+		  -->
+		  <version>3.12.0</version>
 		  <executions>
 			<execution>
 			  <id>attach-javadoc</id>
@@ -164,7 +170,51 @@
 			</execution>
 		  </executions>
 		</plugin>
+		<plugin>
+		  <groupId>org.apache.maven.plugins</groupId>
+		  <artifactId>maven-resources-plugin</artifactId>
+		  <version>3.5.0</version>
+		  <executions>
+			<!--
+			  Runs before javadoc:jar (package), so the license is inside the javadoc jar too.
+			  The path below is maven-javadoc-plugin 3.12.0's output directory — it is pinned
+			  above precisely so this stays true.
+			-->
+			<execution>
+			  <id>copy-license-into-javadoc</id>
+			  <phase>prepare-package</phase>
+			  <goals>
+				<goal>copy-resources</goal>
+			  </goals>
+			  <configuration>
+				<outputDirectory>${project.build.directory}/reports/apidocs/META-INF</outputDirectory>
+				<resources>
+				  <resource>
+					<directory>${basedir}</directory>
+					<includes>
+					  <include>LICENSE</include>
+					</includes>
+				  </resource>
+				</resources>
+			  </configuration>
+			</execution>
+		  </executions>
+		</plugin>
 	</plugins>
+
+	<resources>
+	  <!-- Declaring any resource replaces Maven's default, so restate it. -->
+	  <resource>
+		<directory>src/main/resources</directory>
+	  </resource>
+	  <resource>
+		<directory>${basedir}</directory>
+		<targetPath>META-INF</targetPath>
+		<includes>
+		  <include>LICENSE</include>
+		</includes>
+	  </resource>
+	</resources>
   </build>
   <profiles>
         <profile>

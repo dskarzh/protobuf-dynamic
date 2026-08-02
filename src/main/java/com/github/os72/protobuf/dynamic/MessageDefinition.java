@@ -14,6 +14,11 @@
  * limitations under the License.
  */
 
+/*
+ * SPDX-FileCopyrightText: Modifications Copyright (C) 2020-present ThingsBoard, Inc.
+ * This file has been modified from the original protobuf-dynamic source.
+ * See the project's Git history for details of the changes.
+ */
 package com.github.os72.protobuf.dynamic;
 
 import com.google.protobuf.DescriptorProtos.DescriptorProto;
