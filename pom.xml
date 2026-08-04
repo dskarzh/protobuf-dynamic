@@ -10,12 +10,6 @@
   <url>https://github.com/thingsboard/protobuf-dynamic</url>
   <description>Protocol Buffers Dynamic Schema</description>
 
-  <parent>
-	<groupId>org.sonatype.oss</groupId>
-	<artifactId>oss-parent</artifactId>
-	<version>9</version>
-  </parent>
-
   <licenses>
 	<license>
 	  <name>Apache License 2.0</name>
@@ -248,13 +242,10 @@
         </profile>
   </profiles>
   <distributionManagement>
-        <snapshotRepository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-        </snapshotRepository>
         <repository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
+            <id>thingsboard-public-repo</id>
+            <name>ThingsBoard Public Repo</name>
+            <url>https://repo.thingsboard.io/artifactory/libs-release-public</url>
         </repository>
   </distributionManagement>
 </project>
